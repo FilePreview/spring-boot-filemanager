@@ -2,6 +2,9 @@
     'use strict';
     var app = angular.module('FileManagerApp');
 
+    /**
+     * 注册文件管理器
+     */
     app.directive('angularFilemanager', ['$parse', 'fileManagerConfig', function($parse, fileManagerConfig) {
         return {
             restrict: 'EA',
@@ -9,6 +12,9 @@
         };
     }]);
 
+    /**
+     * 点击文件
+     */
     app.directive('ngFile', ['$parse', function($parse) {
         return {
             restrict: 'A',
@@ -25,6 +31,9 @@
         };
     }]);
 
+    /**
+     * 右键点击
+     */
     app.directive('ngRightClick', ['$parse', function($parse) {
         return function(scope, element, attrs) {
             var fn = $parse(attrs.ngRightClick);

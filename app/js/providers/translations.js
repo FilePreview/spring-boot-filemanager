@@ -1,3 +1,6 @@
+/**
+ * 多语言
+ */
 (function (angular) {
     'use strict';
     angular.module('FileManagerApp').config(['$translateProvider', function ($translateProvider) {

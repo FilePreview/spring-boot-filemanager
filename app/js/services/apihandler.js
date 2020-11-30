@@ -1,3 +1,6 @@
+/**
+ * 前端接口方法文件
+ */
 (function(angular, $) {
     'use strict';
     angular.module('FileManagerApp').service('apiHandler', ['$http', '$q', '$window', '$translate', 'Upload',
@@ -11,6 +14,9 @@
             this.error = '';
         };
 
+        /**
+         * deferredHandler: 过滤非法data \ code 请求，初始化响应deffered，处理响应
+         */
         ApiHandler.prototype.deferredHandler = function(data, deferred, code, defaultMsg) {
             if (!data || typeof data !== 'object') {
                 this.error = 'Error %s - Bridge response error, please check the API docs or this ajax response.'.replace('%s', code);
@@ -33,6 +39,9 @@
             return deferred.resolve(data);
         };
 
+        /**
+         * 展示文件列表
+         */
         ApiHandler.prototype.list = function(apiUrl, path, customDeferredHandler) {
             var self = this;
             var dfHandler = customDeferredHandler || self.deferredHandler;
@@ -55,6 +64,9 @@
             return deferred.promise;
         };
 
+        /**
+         * 复制文件
+         */
         ApiHandler.prototype.copy = function(apiUrl, items, path, singleFilename) {
             var self = this;
             var deferred = $q.defer();
@@ -80,6 +92,9 @@
             return deferred.promise;
         };
 
+        /**
+         * 移动文件
+         */
         ApiHandler.prototype.move = function(apiUrl, items, path) {
             var self = this;
             var deferred = $q.defer();
@@ -100,6 +115,9 @@
             return deferred.promise;
         };
 
+        /**
+         * 移除文件
+         */
         ApiHandler.prototype.remove = function(apiUrl, items) {
             var self = this;
             var deferred = $q.defer();
@@ -120,6 +138,9 @@
             return deferred.promise;
         };
 
+        /**
+         * 上传文件
+         */
         ApiHandler.prototype.upload = function(apiUrl, destination, files) {
             var self = this;
             var deferred = $q.defer();
@@ -154,6 +175,9 @@
             return deferred.promise;
         };
 
+        /**
+         * 获取文件内容
+         */
         ApiHandler.prototype.getContent = function(apiUrl, itemPath) {            
             var self = this;
             var deferred = $q.defer();
@@ -174,6 +198,9 @@
             return deferred.promise;
         };
 
+        /**
+         * 编辑文件
+         */
         ApiHandler.prototype.edit = function(apiUrl, itemPath, content) {
             var self = this;
             var deferred = $q.defer();
@@ -196,6 +223,9 @@
             return deferred.promise;
         };
 
+        /**
+         * 重命名文件
+         */
         ApiHandler.prototype.rename = function(apiUrl, itemPath, newPath) {
             var self = this;
             var deferred = $q.defer();
@@ -216,6 +246,9 @@
             return deferred.promise;
         };
 
+        /**
+         * 获取地址url地址
+         */
         ApiHandler.prototype.getUrl = function(apiUrl, path) {
             var data = {
                 action: 'download',
@@ -224,6 +257,9 @@
             return path && [apiUrl, $.param(data)].join('?');
         };
 
+        /**
+         * 下载
+         */
         ApiHandler.prototype.download = function(apiUrl, itemPath, toFilename, downloadByAjax, forceNewWindow) {
             var self = this;
             var url = this.getUrl(apiUrl, itemPath);
@@ -247,6 +283,9 @@
             return deferred.promise;
         };
 
+        /**
+         * 多文件下载
+         */
         ApiHandler.prototype.downloadMultiple = function(apiUrl, items, toFilename, downloadByAjax, forceNewWindow) {
             var self = this;
             var deferred = $q.defer();
@@ -275,6 +314,9 @@
             return deferred.promise;
         };
 
+        /**
+         * 压缩
+         */
         ApiHandler.prototype.compress = function(apiUrl, items, compressedFilename, path) {
             var self = this;
             var deferred = $q.defer();
@@ -297,6 +339,9 @@
             return deferred.promise;
         };
 
+        /**
+         * 解压
+         */
         ApiHandler.prototype.extract = function(apiUrl, item, folderName, path) {
             var self = this;
             var deferred = $q.defer();
@@ -319,6 +364,9 @@
             return deferred.promise;
         };
 
+        /**
+         * 修改权限
+         */
         ApiHandler.prototype.changePermissions = function(apiUrl, items, permsOctal, permsCode, recursive) {
             var self = this;
             var deferred = $q.defer();
@@ -342,6 +390,9 @@
             return deferred.promise;
         };
 
+        /**
+         * 创建文件夹
+         */
         ApiHandler.prototype.createFolder = function(apiUrl, path) {
             var self = this;
             var deferred = $q.defer();

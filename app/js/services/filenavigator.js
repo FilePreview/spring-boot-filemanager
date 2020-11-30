@@ -1,3 +1,8 @@
+
+/**
+ * 注册业务模块
+ */
+
 (function(angular) {
     'use strict';
     angular.module('FileManagerApp').service('fileNavigator', [
@@ -14,6 +19,9 @@
             this.onRefresh = function() {};
         };
 
+        /**
+         * 过滤非法data \ code 请求，初始化响应deffered，处理响应
+         */
         FileNavigator.prototype.deferredHandler = function(data, deferred, code, defaultMsg) {
             if (!data || typeof data !== 'object') {
                 this.error = 'Error %s - Bridge response error, please check the API docs or this ajax response.'.replace('%s', code);
@@ -36,10 +44,16 @@
             return deferred.resolve(data);
         };
 
+        /**
+         * 获取文件列表
+         */
         FileNavigator.prototype.list = function() {
             return this.apiMiddleware.list(this.currentPath, this.deferredHandler.bind(this));
         };
 
+        /**
+         * 刷新页面
+         */
         FileNavigator.prototype.refresh = function() {
             var self = this;
             if (! self.currentPath.length) {
@@ -59,6 +73,9 @@
             });
         };
         
+        /**
+         * 重构目录树
+         */
         FileNavigator.prototype.buildTree = function(path) {
             var flatNodes = [], selectedNode = {};
 
@@ -110,6 +127,9 @@
             }
         };
 
+        /**
+         * 点击文件夹响应
+         */
         FileNavigator.prototype.folderClick = function(item) {
             this.currentPath = [];
             if (item && item.isFolder()) {
@@ -118,6 +138,9 @@
             this.refresh();
         };
 
+        /**
+         * 返回上一级
+         */
         FileNavigator.prototype.upDir = function() {
             if (this.currentPath[0]) {
                 this.currentPath = this.currentPath.slice(0, -1);
@@ -125,17 +148,26 @@
             }
         };
 
+        /**
+         * 页面跳转
+         */
         FileNavigator.prototype.goTo = function(index) {
             this.currentPath = this.currentPath.slice(0, index + 1);
             this.refresh();
         };
 
+        /**
+         * 判断文件名是否存在
+         */
         FileNavigator.prototype.fileNameExists = function(fileName) {
             return this.fileList.find(function(item) {
                 return fileName.trim && item.model.name.trim() === fileName.trim();
             });
         };
 
+        /**
+         * 判断文件列表中是否有文件夹
+         */
         FileNavigator.prototype.listHasFolders = function() {
             return this.fileList.find(function(item) {
                 return item.model.type === 'dir';

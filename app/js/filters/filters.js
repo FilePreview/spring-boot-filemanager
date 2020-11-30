@@ -1,8 +1,21 @@
+/**
+ * 过滤器
+ */
 (function(angular) {
     'use strict';
-    var app = angular.module('FileManagerApp');
+  /**
+   * 在app 上添加过滤器组件
+   * @type {angular.Module}
+   */
+  var app = angular.module('FileManagerApp');
 
+  /**
+   * 通过字符串大小限制过滤，
+   */
     app.filter('strLimit', ['$filter', function($filter) {
+      /**
+       * 构造一个过滤方法
+       */
         return function(input, limit, more) {
             if (input.length <= limit) {
                 return input;
@@ -11,12 +24,18 @@
         };
     }]);
 
-    app.filter('fileExtension', ['$filter', function($filter) {
+  /**
+   * 通过文件扩展名过滤，构造一个过滤方法
+   */
+  app.filter('fileExtension', ['$filter', function($filter) {
         return function(input) {
             return /\./.test(input) && $filter('strLimit')(input.split('.').pop(), 3, '..') || '';
         };
     }]);
 
+  /**
+   * 根据格式化日期过滤
+   */
     app.filter('formatDate', ['$filter', function() {
         return function(input) {
             return input instanceof Date ?
@@ -25,9 +44,20 @@
         };
     }]);
 
-    app.filter('humanReadableFileSize', ['$filter', 'fileManagerConfig', function($filter, fileManagerConfig) {
+  /**
+   * 根据文件大小过滤
+   */
+  app.filter('humanReadableFileSize', ['$filter', 'fileManagerConfig', function($filter, fileManagerConfig) {
       // See https://en.wikipedia.org/wiki/Binary_prefix
+    /**
+     * 文件大小单元
+     * @type {string[]}
+     */
       var decimalByteUnits = [' kB', ' MB', ' GB', ' TB', 'PB', 'EB', 'ZB', 'YB'];
+    /**
+     * 文件二进制大小单元
+     * @type {string[]}
+     */
       var binaryByteUnits = ['KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
 
       return function(input) {

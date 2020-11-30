@@ -1,3 +1,6 @@
+/**
+ * 配置
+ */
 (function(angular) {
     'use strict';
     angular.module('FileManagerApp').provider('fileManagerConfig', function() {
