@@ -1,5 +1,8 @@
 (function(angular) {
     'use strict';
+    /**
+     * 注册模块
+     */
     angular.module('FileManagerApp').service('chmod', function () {
 
         var Chmod = function(initValue) {
@@ -22,6 +25,12 @@
             }
         };
 
+        /**
+         * 转化为八进制
+         * @param prepend
+         * @param append
+         * @returns {string}
+         */
         Chmod.prototype.toOctal = function(prepend, append) {
             var result = [];
             ['owner', 'group', 'others'].forEach(function(key, i) {
@@ -32,6 +41,12 @@
             return (prepend||'') + result.join('') + (append||'');
         };
 
+        /**
+         * 转化为代码
+         * @param prepend
+         * @param append
+         * @returns {string}
+         */
         Chmod.prototype.toCode = function(prepend, append) {
             var result = [];
             ['owner', 'group', 'others'].forEach(function(key, i) {
@@ -42,6 +57,10 @@
             return (prepend||'') + result.join('') + (append||'');
         };
 
+        /**
+         * 获取rwx 对象
+         * @returns {{read: boolean, write: boolean, exec: boolean}}
+         */
         Chmod.prototype.getRwxObj = function() {
             return {
                 read: false,
@@ -50,14 +69,27 @@
             };
         };
 
+        /**
+         * 八进制值
+         * @type {{read: number, write: number, exec: number}}
+         */
         Chmod.prototype.octalValues = {
             read: 4, write: 2, exec: 1
         };
 
+        /**
+         * 代码值
+         * @type {{read: string, write: string, exec: string}}
+         */
         Chmod.prototype.codeValues = {
             read: 'r', write: 'w', exec: 'x'
         };
 
+        /**
+         * 从字符串代码转化为八进制
+         * @param str
+         * @returns {{owner: *, others: *, group: *}}
+         */
         Chmod.prototype.convertfromCode = function (str) {
             str = ('' + str).replace(/\s/g, '');
             str = str.length === 10 ? str.substr(1) : str;
@@ -81,6 +113,11 @@
             };
         };
 
+        /**
+         * 从八进制转化为code
+         * @param str
+         * @returns {{owner: *, others: *, group: *}}
+         */
         Chmod.prototype.convertfromOctal = function (str) {
             str = ('' + str).replace(/\s/g, '');
             str = str.length === 4 ? str.substr(1) : str;
